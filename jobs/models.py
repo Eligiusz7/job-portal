@@ -15,6 +15,9 @@ class Category(models.Model):
         self.slug = slugify(self.title)
         super(Category, self).save(*args, **kwargs)
 
+    def job_count(self):
+        return self.jobs.all().count()
+
 
 class Job(models.Model):
     title = models.CharField(max_length=300)
