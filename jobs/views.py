@@ -1,5 +1,10 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
+
+from jobs.models import Job
 
 
-class HomeView(TemplateView):
+class HomeView(ListView):
     template_name = 'jobs/index.html'
+    context_object_name = 'jobs'
+    model = Job
+    paginate_by = 1
