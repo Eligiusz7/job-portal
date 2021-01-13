@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>JobPortal - Free Bootstrap 4 Template by Colorlib</title>
+    <title>JobPortal</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="{% static "css/flaticon.css" %}">
     <link rel="stylesheet" href="{% static "css/icomoon.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
   </head>
   <body>
 
@@ -45,10 +47,40 @@
 	          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
                 {% if not user.is_authenticated %}
-	          <li class="nav-item cta mr-md-2"><a href="{% url 'users:register' %}" class="nav-link">Register</a></li>
-	          <li class="nav-item cta cta-colored"><a href="{% url 'users:login' %}" class="nav-link">Login</a></li>
+                  <li class="nav-item cta mr-md-2"><a href="{% url 'users:register' %}" class="nav-link">Register</a></li>
+                  <li class="nav-item cta cta-colored"><a href="{% url 'users:login' %}" class="nav-link">Login</a></li>
                 {% endif %}
-
+                {% if user.is_authenticated and user.is_employee %}
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-success dropdown-toggle" style="height:50px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              {{ user.first_name }}
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">My Jobs</a>
+                        <a class="dropdown-item" href="">You Have {{ user.count_unread_messages }} message(s)</a>
+                        <a class="dropdown-item" href="">My Wish List</a>
+                        <a class="dropdown-item" href="{% url 'users:update_profile' pk=user.get_profile_id %}">Update Profile</a>
+                        <a class="dropdown-item" href="">Change Password</a>
+                        <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
+                      </div>
+                    </div>
+                {% endif %}
+                {% if user.is_authenticated and user.is_employer %}
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-success dropdown-toggle" style="height:50px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{ user.first_name }}
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="">Add Job</a>
+                        <a class="dropdown-item" href="">My Jobs</a>
+                        {% if user.get_profile_id %}
+                            <a class="dropdown-item" href="{% url 'users:update_profile' pk=user.get_profile_id %}">Update Profile</a>
+                        {% endif %}
+                        <a class="dropdown-item" href="">Change Password</a>
+                        <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
+                      </div>
+                    </div>
+                {% endif %}
 	        </ul>
 	      </div>
 	    </div>
@@ -56,9 +88,11 @@
     <!-- END nav -->
 {% block content %}
 
-{% endblock %}
 
-		<section class="ftco-section-parallax">
+  {% endblock %}
+
+
+  		<section class="ftco-section-parallax">
       <div class="parallax-img d-flex align-items-center">
         <div class="container">
           <div class="row d-flex justify-content-center">
@@ -168,6 +202,13 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="{% static "js/google-map.js" %}"></script>
   <script src="{% static "js/main.js" %}"></script>
+  {% if user.is_authenticated and user.is_employee %}
+      <script src="{% static "js/addorremove.js" %}"></script>
+      {% else %}
+      <script src="{% static "js/addorremove2.js" %}"></script>
+  {% endif %}
+
+
 
   </body>
 </html>
