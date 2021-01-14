@@ -3,10 +3,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
+from django.urls import reverse
+from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView
 
-from django.views.generic import TemplateView, ListView, CreateView, DetailView
-
-from jobs.forms import CreateJobForm
+from jobs.forms import CreateJobForm, ApplyJobForm
 from jobs.models import Job, Category
 
 
@@ -37,15 +37,27 @@ class CreateJobView(SuccessMessageMixin, CreateView):
         return super(CreateJobView, self).form_valid(form)
 
 
-class SingleJobView(DetailView):
+class SingleJobView(SuccessMessageMixin, UpdateView):
     template_name = 'jobs/single.html'
     model = Job
     context_object_name = 'job'
+    form_class = ApplyJobForm
+    success_message = "You applied this job!"
 
     def get_context_data(self, **kwargs):
         context = super(SingleJobView, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        context['employee_applied'] = Job.objects.get(pk=self.kwargs['pk']).employee.all().filter(id=self.request.user.id)
         return context
+
+    def form_valid(self, form):
+        employee = self.request.user
+        form.instance.employee.add(employee)
+        form.save()
+        return super(SingleJobView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('jobs:single_job', kwargs={'slug':self.object.slug, "pk":self.object.pk})
 
 
 class CategoryDetailView(ListView):
