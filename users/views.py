@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
 
 from jobs.models import Category, Job
-from users.forms import AccountRegisterForm, UserUpdateForm
+from users.forms import AccountRegisterForm, UserUpdateForm, InviteEmployeeForm
 from users.models import Profile, Account
 
 
@@ -60,9 +60,10 @@ class UserUpdateView(SuccessMessageMixin, UpdateView):
         return reverse('users: update_profile', kwargs={'pk': self.object.pk})
 
 
-class EmployeeProfileView(DetailView):
+class EmployeeProfileView(CreateView):
     template_name = 'users/employee-profile.html'
     model = Account
+    form_class = InviteEmployeeForm
 
     def get_context_data(self, **kwargs):
         context = super(EmployeeProfileView, self).get_context_data(**kwargs)
