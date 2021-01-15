@@ -58,6 +58,9 @@ class Account(AbstractBaseUser, PermissionsMixin):
     def count_unread_messages(self):
         return self.invites.filter(unread=True).count()
 
+    def unread_messages(self):
+        return self.invites.filter(unread=True).values_list('job_id', flat=True)
+
 
 class Profile(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="profile")
@@ -85,6 +88,9 @@ class Invite(models.Model):
     date = models.DateField(default=None, blank=True, null=True)
     message = RichTextField(blank=True)
     unread = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.job.title
 
 
 @receiver(models.signals.post_save, sender=Account)
