@@ -7,6 +7,8 @@ from django.utils.translation import gettext_lazy as _
 from PIL import Image
 from ckeditor.fields import RichTextField
 
+from jobs.models import Job
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -72,6 +74,14 @@ class Profile(models.Model):
             new_size = (200, 200)
             img.thumbnail(new_size)
             img.save(self.image.path)
+
+
+class Invite(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="invites")
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="invites")
+    date = models.DateField(default=None, blank=True, null=True)
+    message = RichTextField(blank=True)
+    unread = models.BooleanField(default=True)
 
 
 @receiver(models.signals.post_save, sender=Account)
