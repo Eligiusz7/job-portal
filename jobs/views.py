@@ -4,9 +4,9 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.urls import reverse
-from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView
+from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 
-from jobs.forms import CreateJobForm, ApplyJobForm
+from jobs.forms import CreateJobForm, ApplyJobForm, UpdateJobForm
 from jobs.models import Job, Category
 
 
@@ -107,3 +107,13 @@ class SearchJobView(ListView):
         context['categories'] = Category.objects.all()
         return context
 
+
+class UpdateJobView(SuccessMessageMixin ,UpdateView):
+    model = Job
+    template_name = 'jobs/update.html'
+    form_class = UpdateJobForm
+    success_message = "You updated your job!"
+
+
+class DeleteJobView(SuccessMessageMixin, DeleteView):
+    pass
