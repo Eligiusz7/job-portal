@@ -26,6 +26,7 @@
             <hr>
             <h3>Send an invitation to employee</h3>
             <form action="" method="post">
+                {% csrf_token %}
                 <div class="row form-group">
                     <div class="col-md-12">
                       <label class="font-weight-bold" for="fullname">Date</label>

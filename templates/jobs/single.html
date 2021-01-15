@@ -6,7 +6,7 @@
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start" data-scrollax-parent="true">
           <div class="col-md-8 ftco-animate text-center text-md-left mb-5" data-scrollax=" properties: { translateY: '70%' }">
-          	<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-3"><a href="blog.html">Blog <i class="ion-ios-arrow-forward"></i></a></span> <span>Single</span></p>
+          	<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Detail</span></p>
             <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Job detail</h1>
           </div>
         </div>
@@ -43,7 +43,7 @@
                         Applied candidates
                       </button>
                       {% for employee in applied_employees %}
-                          <a href="{% url 'users:employee_profile' pk=employee.pk %}" class="list-group-item list-group-item-action">{{ employee.first_name }} {{ employee.last_name }}</a>
+                          <a href="{% url 'users:employee_profile' employee_id=employee.pk job_id=job.id %}" class="list-group-item list-group-item-action">{{ employee.first_name }} {{ employee.last_name }}</a>
                       {% endfor %}
                   </div>
               {% else %}
