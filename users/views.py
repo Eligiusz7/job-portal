@@ -93,3 +93,14 @@ class EmployerPostedJobsView(ListView):
 
     def get_queryset(self):
         return Job.objects.filter(employer=self.request.user).order_by('-id')
+
+
+@method_decorator(login_required(login_url='/users/login'), name='dispatch')
+class EmployeeMessagesView(ListView):
+    model = Job
+    template_name = 'users/employee-messages.html'
+    paginate_by = 5
+    context_object_name = 'jobs'
+
+    def get_queryset(self):
+        return Job.objects.filter(invites__isnull=False, invites__user_id=self.request.user).order_by('-invites')
