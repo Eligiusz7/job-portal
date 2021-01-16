@@ -25,6 +25,9 @@ class HomeView(ListView):
         context['candidates'] = Account.objects.filter(is_employee=True).count()
         context['resumes'] = Profile.objects.exclude(resume="").count()
         context['employers'] = Account.objects.filter(is_employer=True).count()
+        if self.request.user.is_authenticated:
+            context['wish_list'] = Job.objects.filter(wish_list__user_id=self.request.user.id).values_list('id', flat=True)
+
         return context
 
 

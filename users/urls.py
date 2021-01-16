@@ -13,4 +13,5 @@ urlpatterns = [
     path('employee-display-messages/<int:pk>/', EmployeeDisplayMessages.as_view(), name='employer_display_messages'),
     path('add-wishlist/<int:pk>/', AddWishListView.as_view(), name='add_wishlist'),
     path('remove-from-wishlist/<int:pk>/', RemoveFromWishListView.as_view(), name='remove_from_wishlist'),
+    path('mywishlist/<int:pk>/', MyWishList.as_view(), name='my_wish_list'),
 ]
