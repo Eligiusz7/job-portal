@@ -11,4 +11,5 @@ urlpatterns = [
     path('employer-jobs/', EmployerPostedJobsView.as_view(), name='employer_jobs'),
     path('employee-messages/<int:pk>/', EmployeeMessagesView.as_view(), name='employer_messages'),
     path('employee-display-messages/<int:pk>/', EmployeeDisplayMessages.as_view(), name='employer_display_messages'),
+    path('add-wishlist/<int:pk>/', EmployeeDisplayMessages.as_view(), name='employer_display_messages'),
 ]
