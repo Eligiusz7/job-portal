@@ -486,7 +486,22 @@
                 method:"GET",
                 success:function () {
                     $('#jobwl' + id).removeClass('btn-primary').addClass('btn-danger')
-                    alert("Success")
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top',
+                      showConfirmButton: true,
+                      timer: 3000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      }
+                    })
+
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Added'
+                    })
                 }
             });
         }
@@ -499,7 +514,22 @@
                 method:"GET",
                 success:function () {
                     $('#jobwl' + id).removeClass('btn-danger').addClass('btn-primary')
-                    alert("Success")
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top',
+                      showConfirmButton: true,
+                      timer: 3000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      }
+                    })
+
+                    Toast.fire({
+                      icon: 'error',
+                      title: 'Removed'
+                    })
                 }
             });
         }
