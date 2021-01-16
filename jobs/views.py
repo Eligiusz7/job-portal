@@ -9,6 +9,7 @@ from django.views.generic import TemplateView, ListView, CreateView, DetailView,
 
 from jobs.forms import CreateJobForm, ApplyJobForm, UpdateJobForm
 from jobs.models import Job, Category
+from users.models import Account, Profile
 
 
 class HomeView(ListView):
@@ -20,6 +21,10 @@ class HomeView(ListView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        context['all_jobs'] = Job.objects.all().count()
+        context['candidates'] = Account.objects.filter(is_employee=True).count()
+        context['resumes'] = Profile.objects.exclude(resume="").count()
+        context['employers'] = Account.objects.filter(is_employer=True).count()
         return context
 
 
