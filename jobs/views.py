@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from jobs.forms import CreateJobForm, ApplyJobForm, UpdateJobForm
@@ -114,6 +115,35 @@ class UpdateJobView(SuccessMessageMixin ,UpdateView):
     form_class = UpdateJobForm
     success_message = "You updated your job!"
 
+    def form_valid(self, form):
+        form.instance.employer = self.request.user
+        return super(UpdateJobView, self).form_valid(form)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.employer != request.user:
+            return HttpResponseRedirect('/')
+        return super(UpdateJobView, self).get(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('jobs:single_job', kwargs={"pk":self.object.pk, "slug":self.object.slug})
+
 
 class DeleteJobView(SuccessMessageMixin, DeleteView):
-    pass
+    model = Job
+    success_url = '/'
+    template_name = 'jobs/delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.employer == request.user:
+            self.object.delete()
+            return HttpResponseRedirect(self.success_url)
+        else:
+            return HttpResponseRedirect(self.success_url)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.employer != request.user:
+            return HttpResponseRedirect('/')
+        return super(DeleteJobView, self).get(request, *args, **kwargs)
