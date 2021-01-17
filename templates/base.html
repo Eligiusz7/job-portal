@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>JobPortal</title>
+    <title>Job Portal</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -57,7 +57,7 @@
                         <a class="dropdown-item" href="{% url 'users:employer_messages' pk=user.pk %}">You have {{ user.count_unread_messages }} message(s)</a>
                         <a class="dropdown-item" href="{% url 'users:my_wish_list' pk=user.id %}">My wish list</a>
                         <a class="dropdown-item" href="{% url 'users:update_profile' pk=user.get_profile_id %}">Update profile</a>
-                        <a class="dropdown-item" href="">Change password</a>
+                        <a class="dropdown-item" href="{% url 'users:password_change' %}">Change password</a>
                         <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
                       </div>
                     </div>
@@ -73,7 +73,7 @@
                         {% if user.get_profile_id %}
                             <a class="dropdown-item" href="{% url 'users:update_profile' pk=user.get_profile_id %}">Update profile</a>
                         {% endif %}
-                        <a class="dropdown-item" href="">Change password</a>
+                        <a class="dropdown-item" href="{% url 'users:password_change' %}">Change password</a>
                         <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
                       </div>
                     </div>
