@@ -79,7 +79,7 @@ class CategoryDetailView(ListView):
     model = Job
     template_name = 'jobs/category-detail.html'
     context_object_name = 'jobs'
-    paginate_by = 2
+    paginate_by = 3
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, pk=self.kwargs['pk'])
@@ -96,7 +96,7 @@ class CategoryDetailView(ListView):
 class SearchJobView(ListView):
     model = Job
     template_name = 'jobs/search.html'
-    paginate_by = 2
+    paginate_by = 3
     context_object_name = 'jobs'
 
     def get_queryset(self):

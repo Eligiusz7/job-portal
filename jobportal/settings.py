@@ -140,8 +140,8 @@ LOGOUT_REDIRECT_URL = '/users/login/'
 
 CKEDITOR_CONFIGS = {
     'default': {
-        'toolbar': 'Basic',
+        'toolbar': 'Full',
         'height': 300,
-        'width': 400,
+        'width': 650,
     },
 }
