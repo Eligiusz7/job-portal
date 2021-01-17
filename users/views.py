@@ -169,3 +169,14 @@ class MyWishList(ListView):
                                                                                                            flat=True)
 
         return context
+
+
+@method_decorator(login_required(login_url='/users/login'), name='dispatch')
+class EmployeeAppliedJobsView(ListView):
+    template_name = 'users/employee-applied-jobs.html'
+    context_object_name = 'employee_jobs'
+    model = Job
+    paginate_by = 3
+
+    def get_queryset(self):
+        return Job.objects.filter(employee=self.request.user).order_by('-id')
