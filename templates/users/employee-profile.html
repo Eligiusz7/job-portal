@@ -61,7 +61,7 @@
               <div class="categories">
                 <h3>Categories</h3>
                   {% for category in categories %}
-                <li><a href="#">{{ category.title }} <span>{{ category.job_count }}</span></a></li>
+                    <li><a href="{% url 'jobs:category_detail' category.slug category.pk %}">{{ category.title }} <span>{{ category.job_count }}</span></a></li>
                   {% endfor %}
               </div>
             </div>
