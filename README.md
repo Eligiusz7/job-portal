@@ -1,4 +1,5 @@
 # job-portal
 Python, Django, Bootstrap
 
-job.PNG
+
+https://github.com/Eligiusz7/job-portal/blob/master/job.PNG
